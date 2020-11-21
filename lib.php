@@ -494,7 +494,7 @@ function regularvideo_dndupload_handle($uploadinfo) {
     $options = array(
         'CURLOPT_RETURNTRANSFER' => true,
         'CURLOPT_HEADER' => false,
-        'CURLOPT_POST' => count($postdata),
+        'CURLOPT_POST' => 1,
     );
 
     if (!$output = $curl->post($url, $postdata, $options)) {
@@ -518,7 +518,7 @@ function regularvideo_dndupload_handle($uploadinfo) {
     $options = array(
         'CURLOPT_RETURNTRANSFER' => true,
         'CURLOPT_HEADER' => false,
-        'CURLOPT_POST' => count($postdata),
+        'CURLOPT_POST' => 1,
     );
     
     if (!$output = $curl->post($url, $postdata, $options)) {

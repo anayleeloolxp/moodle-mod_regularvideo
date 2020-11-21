@@ -46,7 +46,7 @@ class mod_regularvideo_mod_form extends moodleform_mod {
         $options = array(
             'CURLOPT_RETURNTRANSFER' => true,
             'CURLOPT_HEADER' => false,
-            'CURLOPT_POST' => count($postdata),
+            'CURLOPT_POST' => 1,
         );
 
         if (!$output = $curl->post($url, $postdata, $options)) {
@@ -70,7 +70,7 @@ class mod_regularvideo_mod_form extends moodleform_mod {
         $options = array(
             'CURLOPT_RETURNTRANSFER' => true,
             'CURLOPT_HEADER' => false,
-            'CURLOPT_POST' => count($postdata),
+            'CURLOPT_POST' => 1,
         );
         
         if (!$output = $curl->post($url, $postdata, $options)) {

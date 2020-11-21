@@ -69,3 +69,6 @@ $string['regular_allow'] = 'Allow';
 
 $string['videocompletewathced'] = 'Student must view the full video to complete this activity.';
 $string['videocompletewathcedgroup'] = 'Watch Video';
+
+$string['nolicense'] = 'Invalid Leeloo LXP License ID';
+$string['license'] = 'Leeloo LXP License ID';

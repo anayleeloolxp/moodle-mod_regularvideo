@@ -26,27 +26,10 @@
 defined('MOODLE_INTERNAL') || die;
 
 if ($ADMIN->fulltree) {
-    require_once("$CFG->libdir/resourcelib.php");
-
-    $displayoptions = resourcelib_get_displayoptions(array(RESOURCELIB_DISPLAY_OPEN, RESOURCELIB_DISPLAY_POPUP));
-    $defaultdisplayoptions = array(RESOURCELIB_DISPLAY_OPEN);
-
-    //--- general settings -----------------------------------------------------------------------------------
-    $settings->add(new admin_setting_configmultiselect('regularvideo/displayoptions',
-        get_string('displayoptions', 'regularvideo'), get_string('configdisplayoptions', 'regularvideo'),
-        $defaultdisplayoptions, $displayoptions));
-
-    //--- modedit defaults -----------------------------------------------------------------------------------
-    $settings->add(new admin_setting_heading('regularvideomodeditdefaults', get_string('modeditdefaults', 'admin'), get_string('condifmodeditdefaults', 'admin')));
-
-    $settings->add(new admin_setting_configcheckbox('regularvideo/printheading',
-        get_string('printheading', 'regularvideo'), get_string('printheadingexplain', 'regularvideo'), 1));
-    $settings->add(new admin_setting_configcheckbox('regularvideo/printintro',
-        get_string('printintro', 'regularvideo'), get_string('printintroexplain', 'regularvideo'), 0));
-    $settings->add(new admin_setting_configselect('regularvideo/display',
-        get_string('displayselect', 'regularvideo'), get_string('displayselectexplain', 'regularvideo'), RESOURCELIB_DISPLAY_OPEN, $displayoptions));
-    $settings->add(new admin_setting_configtext('regularvideo/popupwidth',
-        get_string('popupwidth', 'regularvideo'), get_string('popupwidthexplain', 'regularvideo'), 620, PARAM_INT, 7));
-    $settings->add(new admin_setting_configtext('regularvideo/popupheight',
-        get_string('popupheight', 'regularvideo'), get_string('popupheightexplain', 'regularvideo'), 450, PARAM_INT, 7));
+    $settings->add(new admin_setting_configtext(
+        'mod_regularvideo/license',
+        get_string('license', 'mod_regularvideo'),
+        get_string('license', 'mod_regularvideo'),
+        0
+    ));
 }

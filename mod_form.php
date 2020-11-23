@@ -104,6 +104,11 @@ class mod_regularvideo_mod_form extends moodleform_mod {
         //$mform->addElement('text', 'border', get_string('regular_border'), array('size'=>'48'));
         $mform->addElement('advcheckbox', 'border', get_string('regular_border', 'regularvideo'));
         $mform->addElement('text', 'allow', get_string('regular_allow', 'regularvideo'), array('size'=>'48'));
+        if (!empty($CFG->formatstringstriptags)) {
+            $mform->setType('allow', PARAM_TEXT);
+        } else {
+            $mform->setType('allow', PARAM_CLEANHTML);
+        }
 
         $mform->addElement('editor', 'regularvideo', get_string('content', 'regularvideo'), null, regularvideo_get_editor_options($this->context));
         $mform->addRule('regularvideo', get_string('required'), 'required', null, 'client');

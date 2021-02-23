@@ -19,8 +19,9 @@
  *
  * @package    mod_regularvideo
  * @category   test
- * @copyright  2012 Petr Skoda {@link http://skodak.org}
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright  2020 Leeloo LXP (https://leeloolxp.com)
+ * @author     Leeloo LXP <info@leeloolxp.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -30,11 +31,15 @@ defined('MOODLE_INTERNAL') || die();
  *
  * @package    mod_regularvideo
  * @category   test
- * @copyright  2012 Petr Skoda {@link http://skodak.org}
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright  2020 Leeloo LXP (https://leeloolxp.com)
+ * @author     Leeloo LXP <info@leeloolxp.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_regularvideo_generator extends testing_module_generator {
 
+    /**
+     * Create instance fucntion
+     */
     public function create_instance($record = null, array $options = null) {
         global $CFG;
         require_once($CFG->dirroot . '/lib/resourcelib.php');

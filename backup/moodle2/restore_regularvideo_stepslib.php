@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Restore file
+ *
  * @package   mod_regularvideo
  * @category  backup
  * @copyright 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
@@ -44,7 +46,7 @@ class restore_regularvideo_activity_structure_step extends restore_activity_stru
 
     /**
      * Process video
-     * 
+     *
      * @param stdClass $data
      */
     protected function process_regularvideo($data) {

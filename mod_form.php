@@ -18,8 +18,9 @@
  * Regular Video configuration form
  *
  * @package mod_regularvideo
- * @copyright  2009 Petr Skoda (http://skodak.org)
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright  2020 Leeloo LXP (https://leeloolxp.com)
+ * @author     Leeloo LXP <info@leeloolxp.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die;
@@ -175,7 +176,7 @@ class mod_regularvideo_mod_form extends moodleform_mod {
 
     /**
      * Data processing
-     * 
+     *
      * @param object $defaultvalues default values
      */
     public function data_preprocessing(&$defaultvalues) {

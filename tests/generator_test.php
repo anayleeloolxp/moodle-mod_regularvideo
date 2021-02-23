@@ -19,7 +19,7 @@
  *
  * @package    mod_regularvideo
  * @category   phpunit
- * @copyright  2012 Petr Skoda {@link http://skodak.org}
+ * @copyright  2020 Leeloo LXP (https://leeloolxp.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -29,8 +29,8 @@ defined('MOODLE_INTERNAL') || die();
  * PHPUnit data generator testcase
  *
  * @package    mod_regularvideo
- * @category   phpunit
- * @copyright  2012 Petr Skoda {@link http://skodak.org}
+ * @category   test
+ * @copyright  2020 Leeloo LXP (https://leeloolxp.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_regularvideo_generator_testcase extends advanced_testcase {

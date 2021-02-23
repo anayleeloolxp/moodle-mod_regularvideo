@@ -15,6 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Restore activity
  * @package   mod_regularvideo
  * @category  backup
  * @copyright 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
@@ -26,8 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/mod/regularvideo/backup/moodle2/restore_regularvideo_stepslib.php'); // Because it exists (must)
 
 /**
- * regularvideo restore task that provides all the settings and steps to perform one
- * complete restore of the activity
+ * regularvideo restore task that provides all the settings
  */
 class restore_regularvideo_activity_task extends restore_activity_task {
 

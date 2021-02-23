@@ -16,10 +16,11 @@
 
 /**
  * Library functions
- * 
+ *
  * @package mod_regularvideo
- * @copyright  2009 Petr Skoda (http://skodak.org)
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright  2020 Leeloo LXP (https://leeloolxp.com)
+ * @author     Leeloo LXP <info@leeloolxp.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die;
@@ -56,7 +57,7 @@ function regularvideo_supports($feature) {
 
 /**
  * Returns all other caps used in module
- * 
+ *
  * @return array
  */
 function regularvideo_get_extra_capabilities() {
@@ -65,7 +66,7 @@ function regularvideo_get_extra_capabilities() {
 
 /**
  * This function is used by the reset_course_userdata function in moodlelib.
- * 
+ *
  * @param array $data the data submitted from the reset course.
  * @return array status array
  */
@@ -406,7 +407,7 @@ function regularvideo_regularvideo_type_list($regularvideotype, $parentcontext, 
  *
  * @param object $cm cm
  * @param string $baseurl baseurl
- * 
+ *
  * @return array of file content
  */
 function regularvideo_export_contents($cm, $baseurl) {

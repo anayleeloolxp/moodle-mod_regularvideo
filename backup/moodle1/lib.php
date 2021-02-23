@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -41,40 +40,39 @@ class moodle1_mod_regularvideo_handler extends moodle1_resource_successor_handle
 
         // get the course module id and context id
         $instanceid = $data['id'];
-        $cminfo     = $this->get_cminfo($instanceid, 'resource');
-        $moduleid   = $cminfo['id'];
-        $contextid  = $this->converter->get_contextid(CONTEXT_MODULE, $moduleid);
+        $cminfo = $this->get_cminfo($instanceid, 'resource');
+        $moduleid = $cminfo['id'];
+        $contextid = $this->converter->get_contextid(CONTEXT_MODULE, $moduleid);
 
         // convert the legacy data onto the new regularvideo record
-        $regularvideo                       = array();
-        $regularvideo['id']                 = $data['id'];
-        $regularvideo['name']               = $data['name'];
-        $regularvideo['vimeo_video_id']               = $data['vimeo_video_id'];
-        $regularvideo['width']               = $data['width'];
-        $regularvideo['height']               = $data['height'];
-        $regularvideo['border']               = $data['border'];
-        $regularvideo['allow']               = $data['allow'];
-        $regularvideo['intro']              = $data['intro'];
-        $regularvideo['introformat']        = $data['introformat'];
-        $regularvideo['content']            = $data['alltext'];
+        $regularvideo = array();
+        $regularvideo['id'] = $data['id'];
+        $regularvideo['name'] = $data['name'];
+        $regularvideo['vimeo_video_id'] = $data['vimeo_video_id'];
+        $regularvideo['width'] = $data['width'];
+        $regularvideo['height'] = $data['height'];
+        $regularvideo['border'] = $data['border'];
+        $regularvideo['allow'] = $data['allow'];
+        $regularvideo['intro'] = $data['intro'];
+        $regularvideo['introformat'] = $data['introformat'];
+        $regularvideo['content'] = $data['alltext'];
 
         if ($data['type'] === 'html') {
             // legacy Resource of the type Web regularvideo
             $regularvideo['contentformat'] = FORMAT_HTML;
-
         } else {
             // legacy Resource of the type Plain text regularvideo
-            $regularvideo['contentformat'] = (int)$data['reference'];
+            $regularvideo['contentformat'] = (int) $data['reference'];
 
             if ($regularvideo['contentformat'] < 0 or $regularvideo['contentformat'] > 4) {
                 $regularvideo['contentformat'] = FORMAT_MOODLE;
             }
         }
 
-        $regularvideo['legacyfiles']        = RESOURCELIB_LEGACYFILES_ACTIVE;
-        $regularvideo['legacyfileslast']    = null;
-        $regularvideo['revision']           = 1;
-        $regularvideo['timemodified']       = $data['timemodified'];
+        $regularvideo['legacyfiles'] = RESOURCELIB_LEGACYFILES_ACTIVE;
+        $regularvideo['legacyfileslast'] = null;
+        $regularvideo['revision'] = 1;
+        $regularvideo['timemodified'] = $data['timemodified'];
 
         // populate display and displayoptions fields
         $options = array('printheading' => 1, 'printintro' => 0);
@@ -84,7 +82,7 @@ class moodle1_mod_regularvideo_handler extends moodle1_resource_successor_handle
             foreach ($rawoptions as $rawoption) {
                 list($name, $value) = explode('=', trim($rawoption), 2);
                 if ($value > 0 and ($name == 'width' or $name == 'height')) {
-                    $options['popup'.$name] = $value;
+                    $options['popup' . $name] = $value;
                     continue;
                 }
             }
@@ -98,12 +96,12 @@ class moodle1_mod_regularvideo_handler extends moodle1_resource_successor_handle
 
         // convert course files embedded into the intro
         $this->fileman->filearea = 'intro';
-        $this->fileman->itemid   = 0;
+        $this->fileman->itemid = 0;
         $regularvideo['intro'] = moodle1_converter::migrate_referenced_files($regularvideo['intro'], $this->fileman);
 
         // convert course files embedded into the content
         $this->fileman->filearea = 'content';
-        $this->fileman->itemid   = 0;
+        $this->fileman->itemid = 0;
         $regularvideo['content'] = moodle1_converter::migrate_referenced_files($regularvideo['content'], $this->fileman);
 
         // write regularvideo.xml

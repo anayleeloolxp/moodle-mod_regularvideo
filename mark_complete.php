@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -33,9 +32,9 @@ $moduleid = $_REQUEST['cm'];
 $userid = $USER->id;
 
 if (isset($moduleid) && isset($moduleid) != '' && isset($userid) && isset($userid) != '') {
-    $check_completion = $DB->get_record_sql('SELECT COUNT(*) as iscompleted FROM {course_modules_completion} WHERE `coursemoduleid` = ' . $moduleid . ' AND `userid` = ' . $userid);
+    $checkcompletion = $DB->get_record_sql('SELECT COUNT(*) as iscompleted FROM {course_modules_completion} WHERE `coursemoduleid` = ' . $moduleid . ' AND `userid` = ' . $userid);
 
-    $iscompleted = $check_completion->iscompleted;
+    $iscompleted = $checkcompletion->iscompleted;
 
     if ($iscompleted == 0) {
         $object = new stdClass;

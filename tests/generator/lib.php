@@ -25,7 +25,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-
 /**
  * Regular Video module data generator class
  *
@@ -40,7 +39,7 @@ class mod_regularvideo_generator extends testing_module_generator {
         global $CFG;
         require_once($CFG->dirroot . '/lib/resourcelib.php');
 
-        $record = (object)(array)$record;
+        $record = (object) (array) $record;
 
         if (!isset($record->content)) {
             $record->content = 'Test regularvideo content';
@@ -58,6 +57,6 @@ class mod_regularvideo_generator extends testing_module_generator {
             $record->printintro = 0;
         }
 
-        return parent::create_instance($record, (array)$options);
+        return parent::create_instance($record, (array) $options);
     }
 }

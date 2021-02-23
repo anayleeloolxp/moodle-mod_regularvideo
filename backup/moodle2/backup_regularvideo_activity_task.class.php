@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -55,15 +54,15 @@ class backup_regularvideo_activity_task extends backup_activity_task {
     static public function encode_content_links($content) {
         global $CFG;
 
-        $base = preg_quote($CFG->wwwroot,"/");
+        $base = preg_quote($CFG->wwwroot, "/");
 
         // Link to the list of regularvideos
-        $search="/(".$base."\/mod\/regularvideo\/index.php\?id\=)([0-9]+)/";
-        $content= preg_replace($search, '$@PAGEINDEX*$2@$', $content);
+        $search = "/(" . $base . "\/mod\/regularvideo\/index.php\?id\=)([0-9]+)/";
+        $content = preg_replace($search, '$@PAGEINDEX*$2@$', $content);
 
         // Link to regularvideo view by moduleid
-        $search="/(".$base."\/mod\/regularvideo\/view.php\?id\=)([0-9]+)/";
-        $content= preg_replace($search, '$@PAGEVIEWBYID*$2@$', $content);
+        $search = "/(" . $base . "\/mod\/regularvideo\/view.php\?id\=)([0-9]+)/";
+        $content = preg_replace($search, '$@PAGEVIEWBYID*$2@$', $content);
 
         return $content;
     }

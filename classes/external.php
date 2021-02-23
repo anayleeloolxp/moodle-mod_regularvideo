@@ -48,7 +48,7 @@ class mod_regularvideo_external extends external_api {
     public static function view_regularvideo_parameters() {
         return new external_function_parameters(
             array(
-                'regularvideoid' => new external_value(PARAM_INT, 'regularvideo instance id')
+                'regularvideoid' => new external_value(PARAM_INT, 'regularvideo instance id'),
             )
         );
     }
@@ -66,9 +66,9 @@ class mod_regularvideo_external extends external_api {
         require_once($CFG->dirroot . "/mod/regularvideo/lib.php");
 
         $params = self::validate_parameters(self::view_regularvideo_parameters(),
-                                            array(
-                                                'regularvideoid' => $regularvideoid
-                                            ));
+            array(
+                'regularvideoid' => $regularvideoid,
+            ));
         $warnings = array();
 
         // Request and permission validation.
@@ -99,7 +99,7 @@ class mod_regularvideo_external extends external_api {
         return new external_single_structure(
             array(
                 'status' => new external_value(PARAM_BOOL, 'status: true if success'),
-                'warnings' => new external_warnings()
+                'warnings' => new external_warnings(),
             )
         );
     }

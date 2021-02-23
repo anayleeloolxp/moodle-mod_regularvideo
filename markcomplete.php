@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -48,11 +47,11 @@ $fromajax = optional_param('fromajax', 0, PARAM_INT);
 $PAGE->set_url('/course/togglecompletion.php', array('id' => $cmid, 'completionstate' => $targetstate));
 
 switch ($targetstate) {
-case COMPLETION_COMPLETE:
-case COMPLETION_INCOMPLETE:
-    break;
-default:
-    print_error('unsupportedstate');
+    case COMPLETION_COMPLETE:
+    case COMPLETION_INCOMPLETE:
+        break;
+    default:
+        print_error('unsupportedstate');
 }
 
 // Get course-modules entry

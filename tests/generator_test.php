@@ -25,7 +25,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-
 /**
  * PHPUnit data generator testcase
  *
@@ -47,9 +46,9 @@ class mod_regularvideo_generator_testcase extends advanced_testcase {
         $this->assertInstanceOf('mod_regularvideo_generator', $generator);
         $this->assertEquals('regularvideo', $generator->get_modulename());
 
-        $generator->create_instance(array('course'=>$SITE->id));
-        $generator->create_instance(array('course'=>$SITE->id));
-        $regularvideo = $generator->create_instance(array('course'=>$SITE->id));
+        $generator->create_instance(array('course' => $SITE->id));
+        $generator->create_instance(array('course' => $SITE->id));
+        $regularvideo = $generator->create_instance(array('course' => $SITE->id));
         $this->assertEquals(3, $DB->count_records('regularvideo'));
 
         $cm = get_coursemodule_from_instance('regularvideo', $regularvideo->id);

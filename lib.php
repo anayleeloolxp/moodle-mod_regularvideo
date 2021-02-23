@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -29,18 +28,27 @@ defined('MOODLE_INTERNAL') || die;
  * @return mixed True if module supports feature, false if not, null if doesn't know
  */
 function regularvideo_supports($feature) {
-    switch($feature) {
-        case FEATURE_MOD_ARCHETYPE:           return MOD_ARCHETYPE_RESOURCE;
-        case FEATURE_GROUPS:                  return false;
-        case FEATURE_GROUPINGS:               return false;
-        case FEATURE_MOD_INTRO:               return true;
-        case FEATURE_COMPLETION_TRACKS_VIEWS: return true;
-        case FEATURE_GRADE_HAS_GRADE:         return false;
-        case FEATURE_GRADE_OUTCOMES:          return false;
-        case FEATURE_BACKUP_MOODLE2:          return true;
-        case FEATURE_SHOW_DESCRIPTION:        return true;
+    switch ($feature) {
+        case FEATURE_MOD_ARCHETYPE:
+            return MOD_ARCHETYPE_RESOURCE;
+        case FEATURE_GROUPS:
+            return false;
+        case FEATURE_GROUPINGS:
+            return false;
+        case FEATURE_MOD_INTRO:
+            return true;
+        case FEATURE_COMPLETION_TRACKS_VIEWS:
+            return true;
+        case FEATURE_GRADE_HAS_GRADE:
+            return false;
+        case FEATURE_GRADE_OUTCOMES:
+            return false;
+        case FEATURE_BACKUP_MOODLE2:
+            return true;
+        case FEATURE_SHOW_DESCRIPTION:
+            return true;
 
-        default: return null;
+        default:return null;
     }
 }
 
@@ -72,7 +80,7 @@ function regularvideo_reset_userdata($data) {
  * @return array
  */
 function regularvideo_get_view_actions() {
-    return array('view','view all');
+    return array('view', 'view all');
 }
 
 /**
@@ -104,22 +112,22 @@ function regularvideo_add_instance($data, $mform = null) {
     $data->timemodified = time();
     $displayoptions = array();
     if ($data->display == RESOURCELIB_DISPLAY_POPUP) {
-        $displayoptions['popupwidth']  = $data->popupwidth;
+        $displayoptions['popupwidth'] = $data->popupwidth;
         $displayoptions['popupheight'] = $data->popupheight;
     }
     $displayoptions['printheading'] = $data->printheading;
-    $displayoptions['printintro']   = $data->printintro;
+    $displayoptions['printintro'] = $data->printintro;
     $data->displayoptions = serialize($displayoptions);
 
     if ($mform) {
-        $data->content       = $data->regularvideo['text'];
+        $data->content = $data->regularvideo['text'];
         $data->contentformat = $data->regularvideo['format'];
     }
 
     $data->id = $DB->insert_record('regularvideo', $data);
 
     // we need to use context now, so we need to make sure all needed info is already in db
-    $DB->set_field('course_modules', 'instance', $data->id, array('id'=>$cmid));
+    $DB->set_field('course_modules', 'instance', $data->id, array('id' => $cmid));
     $context = context_module::instance($cmid);
 
     if ($mform and !empty($data->regularvideo['itemid'])) {
@@ -141,23 +149,23 @@ function regularvideo_update_instance($data, $mform) {
     global $CFG, $DB;
     require_once("$CFG->libdir/resourcelib.php");
 
-    $cmid        = $data->coursemodule;
+    $cmid = $data->coursemodule;
     $draftitemid = $data->regularvideo['itemid'];
 
     $data->timemodified = time();
-    $data->id           = $data->instance;
+    $data->id = $data->instance;
     $data->revision++;
 
     $displayoptions = array();
     if ($data->display == RESOURCELIB_DISPLAY_POPUP) {
-        $displayoptions['popupwidth']  = $data->popupwidth;
+        $displayoptions['popupwidth'] = $data->popupwidth;
         $displayoptions['popupheight'] = $data->popupheight;
     }
     $displayoptions['printheading'] = $data->printheading;
-    $displayoptions['printintro']   = $data->printintro;
+    $displayoptions['printintro'] = $data->printintro;
     $data->displayoptions = serialize($displayoptions);
 
-    $data->content       = $data->regularvideo['text'];
+    $data->content = $data->regularvideo['text'];
     $data->contentformat = $data->regularvideo['format'];
 
     $DB->update_record('regularvideo', $data);
@@ -179,13 +187,13 @@ function regularvideo_update_instance($data, $mform) {
 function regularvideo_delete_instance($id) {
     global $DB;
 
-    if (!$regularvideo = $DB->get_record('regularvideo', array('id'=>$id))) {
+    if (!$regularvideo = $DB->get_record('regularvideo', array('id' => $id))) {
         return false;
     }
 
     // note: all context files are deleted automatically
 
-    $DB->delete_records('regularvideo', array('id'=>$regularvideo->id));
+    $DB->delete_records('regularvideo', array('id' => $regularvideo->id));
 
     return true;
 }
@@ -204,30 +212,27 @@ function regularvideo_get_coursemodule_info($coursemodule) {
     global $CFG, $DB;
     require_once("$CFG->libdir/resourcelib.php");
 
-    if (!$regularvideo = $DB->get_record('regularvideo', array('id'=>$coursemodule->instance),
-            'id, name, display, displayoptions, intro, introformat, vimeo_video_id')) {
-        return NULL;
+    if (!$regularvideo = $DB->get_record('regularvideo', array('id' => $coursemodule->instance),
+        'id, name, display, displayoptions, intro, introformat, vimeo_video_id')) {
+        return null;
     }
-
-    
 
     $info = new cached_cm_info();
     $info->name = $regularvideo->name;
 
-    $data = file_get_contents("http://vimeo.com/api/v2/video/".$regularvideo->vimeo_video_id.".json");
+    $data = file_get_contents("http://vimeo.com/api/v2/video/" . $regularvideo->vimeo_video_id . ".json");
     $data = json_decode($data);
 
     $info->iconurl = $data[0]->thumbnail_small;
 
     if ($coursemodule->showdescription) {
         // Convert intro to html. Do not filter cached version, filters run at display time.
-        
 
-        $img_content =  '<img class="reg_video_img" src="'.$data[0]->thumbnail_small.'"/>';
+        $imgcontent = '<img class="reg_video_img" src="' . $data[0]->thumbnail_small . '"/>';
 
-        $img_content =  '';
+        $imgcontent = '';
 
-        $info->content = $img_content.format_module_intro('regularvideo', $regularvideo, $coursemodule->id, false);
+        $info->content = $imgcontent . format_module_intro('regularvideo', $regularvideo, $coursemodule->id, false);
     }
 
     if ($regularvideo->display != RESOURCELIB_DISPLAY_POPUP) {
@@ -236,14 +241,13 @@ function regularvideo_get_coursemodule_info($coursemodule) {
 
     $fullurl = "$CFG->wwwroot/mod/regularvideo/view.php?id=$coursemodule->id&amp;inpopup=1";
     $options = empty($regularvideo->displayoptions) ? array() : unserialize($regularvideo->displayoptions);
-    $width  = empty($options['popupwidth'])  ? 620 : $options['popupwidth'];
+    $width = empty($options['popupwidth']) ? 620 : $options['popupwidth'];
     $height = empty($options['popupheight']) ? 450 : $options['popupheight'];
     $wh = "width=$width,height=$height,toolbar=no,location=no,menubar=no,copyhistory=no,status=no,directories=no,scrollbars=yes,resizable=yes";
     $info->onclick = "window.open('$fullurl', '', '$wh'); return false;";
 
     return $info;
 }
-
 
 /**
  * Lists all browsable file areas
@@ -291,7 +295,7 @@ function regularvideo_get_file_info($browser, $areas, $course, $cm, $context, $f
         $filepath = is_null($filepath) ? '/' : $filepath;
         $filename = is_null($filename) ? '.' : $filename;
 
-        $urlbase = $CFG->wwwroot.'/pluginfile.php';
+        $urlbase = $CFG->wwwroot . '/pluginfile.php';
         if (!$storedfile = $fs->get_file($context->id, 'mod_regularvideo', 'content', 0, $filepath, $filename)) {
             if ($filepath === '/' and $filename === '.') {
                 $storedfile = new virtual_root_file($context->id, 'mod_regularvideo', 'content', 0);
@@ -323,20 +327,16 @@ function regularvideo_get_file_info($browser, $areas, $course, $cm, $context, $f
  * @param array $options additional options affecting the file serving
  * @return bool false if file not found, does not return if found - just send the file
  */
-function regularvideo_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options=array()) {
+function regularvideo_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = array()) {
     global $CFG, $DB;
     require_once("$CFG->libdir/resourcelib.php");
 
     if ($context->contextlevel != CONTEXT_MODULE) {
         return false;
     }
-    
-    
 
- //   require_course_login($course, true, $cm);
-   
-   
-   
+    //   require_course_login($course, true, $cm);
+
     if (!has_capability('mod/regularvideo:view', $context)) {
         return false;
     }
@@ -352,7 +352,7 @@ function regularvideo_pluginfile($course, $cm, $context, $filearea, $args, $forc
         // serve regularvideo content
         $filename = $arg;
 
-        if (!$regularvideo = $DB->get_record('regularvideo', array('id'=>$cm->instance), '*', MUST_EXIST)) {
+        if (!$regularvideo = $DB->get_record('regularvideo', array('id' => $cm->instance), '*', MUST_EXIST)) {
             return false;
         }
 
@@ -371,14 +371,14 @@ function regularvideo_pluginfile($course, $cm, $context, $filearea, $args, $forc
         $relativepath = implode('/', $args);
         $fullpath = "/$context->id/mod_regularvideo/$filearea/0/$relativepath";
         if (!$file = $fs->get_file_by_hash(sha1($fullpath)) or $file->is_directory()) {
-            $regularvideo = $DB->get_record('regularvideo', array('id'=>$cm->instance), 'id, legacyfiles', MUST_EXIST);
+            $regularvideo = $DB->get_record('regularvideo', array('id' => $cm->instance), 'id, legacyfiles', MUST_EXIST);
             if ($regularvideo->legacyfiles != RESOURCELIB_LEGACYFILES_ACTIVE) {
                 return false;
             }
-            if (!$file = resourcelib_try_file_migration('/'.$relativepath, $cm->id, $cm->course, 'mod_regularvideo', 'content', 0)) {
+            if (!$file = resourcelib_try_file_migration('/' . $relativepath, $cm->id, $cm->course, 'mod_regularvideo', 'content', 0)) {
                 return false;
             }
-            //file migrate - update flag
+            // file migrate - update flag
             $regularvideo->legacyfileslast = time();
             $DB->update_record('regularvideo', $regularvideo);
         }
@@ -395,7 +395,7 @@ function regularvideo_pluginfile($course, $cm, $context, $filearea, $args, $forc
  * @param stdClass $currentcontext Current context of block
  */
 function regularvideo_regularvideo_type_list($regularvideotype, $parentcontext, $currentcontext) {
-    $module_regularvideotype = array('mod-regularvideo-*'=>get_string('regularvideo-mod-regularvideo-x', 'regularvideo'));
+    $module_regularvideotype = array('mod-regularvideo-*' => get_string('regularvideo-mod-regularvideo-x', 'regularvideo'));
     return $module_regularvideotype;
 }
 
@@ -409,42 +409,42 @@ function regularvideo_export_contents($cm, $baseurl) {
     $contents = array();
     $context = context_module::instance($cm->id);
 
-    $regularvideo = $DB->get_record('regularvideo', array('id'=>$cm->instance), '*', MUST_EXIST);
+    $regularvideo = $DB->get_record('regularvideo', array('id' => $cm->instance), '*', MUST_EXIST);
 
     // regularvideo contents
     $fs = get_file_storage();
     $files = $fs->get_area_files($context->id, 'mod_regularvideo', 'content', 0, 'sortorder DESC, id ASC', false);
     foreach ($files as $fileinfo) {
         $file = array();
-        $file['type']         = 'file';
-        $file['filename']     = $fileinfo->get_filename();
-        $file['filepath']     = $fileinfo->get_filepath();
-        $file['filesize']     = $fileinfo->get_filesize();
-        $file['fileurl']      = file_encode_url("$CFG->wwwroot/" . $baseurl, '/'.$context->id.'/mod_regularvideo/content/'.$regularvideo->revision.$fileinfo->get_filepath().$fileinfo->get_filename(), true);
-        $file['timecreated']  = $fileinfo->get_timecreated();
+        $file['type'] = 'file';
+        $file['filename'] = $fileinfo->get_filename();
+        $file['filepath'] = $fileinfo->get_filepath();
+        $file['filesize'] = $fileinfo->get_filesize();
+        $file['fileurl'] = file_encode_url("$CFG->wwwroot/" . $baseurl, '/' . $context->id . '/mod_regularvideo/content/' . $regularvideo->revision . $fileinfo->get_filepath() . $fileinfo->get_filename(), true);
+        $file['timecreated'] = $fileinfo->get_timecreated();
         $file['timemodified'] = $fileinfo->get_timemodified();
-        $file['sortorder']    = $fileinfo->get_sortorder();
-        $file['userid']       = $fileinfo->get_userid();
-        $file['author']       = $fileinfo->get_author();
-        $file['license']      = $fileinfo->get_license();
+        $file['sortorder'] = $fileinfo->get_sortorder();
+        $file['userid'] = $fileinfo->get_userid();
+        $file['author'] = $fileinfo->get_author();
+        $file['license'] = $fileinfo->get_license();
         $contents[] = $file;
     }
 
     // regularvideo html conent
     $filename = 'index.html';
     $regularvideofile = array();
-    $regularvideofile['type']         = 'file';
-    $regularvideofile['filename']     = $filename;
-    $regularvideofile['filepath']     = '/';
-    $regularvideofile['filesize']     = 0;
-    $regularvideofile['fileurl']      = file_encode_url("$CFG->wwwroot/" . $baseurl, '/'.$context->id.'/mod_regularvideo/content/' . $filename, true);
-    $regularvideofile['timecreated']  = null;
+    $regularvideofile['type'] = 'file';
+    $regularvideofile['filename'] = $filename;
+    $regularvideofile['filepath'] = '/';
+    $regularvideofile['filesize'] = 0;
+    $regularvideofile['fileurl'] = file_encode_url("$CFG->wwwroot/" . $baseurl, '/' . $context->id . '/mod_regularvideo/content/' . $filename, true);
+    $regularvideofile['timecreated'] = null;
     $regularvideofile['timemodified'] = $regularvideo->timemodified;
     // make this file as main file
-    $regularvideofile['sortorder']    = 1;
-    $regularvideofile['userid']       = null;
-    $regularvideofile['author']       = null;
-    $regularvideofile['license']      = null;
+    $regularvideofile['sortorder'] = 1;
+    $regularvideofile['userid'] = null;
+    $regularvideofile['author'] = null;
+    $regularvideofile['license'] = null;
     $contents[] = $regularvideofile;
 
     return $contents;
@@ -456,9 +456,9 @@ function regularvideo_export_contents($cm, $baseurl) {
  */
 function regularvideo_dndupload_register() {
     return array('types' => array(
-                     array('identifier' => 'text/html', 'message' => get_string('createregularvideo', 'regularvideo')),
-                     array('identifier' => 'text', 'message' => get_string('createregularvideo', 'regularvideo'))
-                 ));
+        array('identifier' => 'text/html', 'message' => get_string('createregularvideo', 'regularvideo')),
+        array('identifier' => 'text', 'message' => get_string('createregularvideo', 'regularvideo')),
+    ));
 }
 
 /**
@@ -471,7 +471,7 @@ function regularvideo_dndupload_handle($uploadinfo) {
     $data = new stdClass();
     $data->course = $uploadinfo->course->id;
     $data->name = $uploadinfo->displayname;
-    $data->intro = '<p>'.$uploadinfo->displayname.'</p>';
+    $data->intro = '<p>' . $uploadinfo->displayname . '</p>';
     $data->introformat = FORMAT_HTML;
     if ($uploadinfo->type == 'text/html') {
         $data->contentformat = FORMAT_HTML;
@@ -502,39 +502,39 @@ function regularvideo_dndupload_handle($uploadinfo) {
     if (!$output = $curl->post($url, $postdata, $options)) {
         notice(get_string('nolicense', 'mod_regularvideo'));
     }
-    
+
     $infoleeloolxp = json_decode($output);
-    
+
     if ($infoleeloolxp->status != 'false') {
         $leeloolxpurl = $infoleeloolxp->data->install_url;
     } else {
         notice(get_string('nolicense', 'mod_regularvideo'));
     }
-    
+
     $url = $leeloolxpurl . '/admin/Theme_setup/get_vimeo_videos_settings';
-    
+
     $postdata = [
         'license_key' => $leeloolxplicense,
     ];
-    
+
     $curl = new curl;
-    
+
     $options = array(
         'CURLOPT_RETURNTRANSFER' => true,
         'CURLOPT_HEADER' => false,
         'CURLOPT_POST' => count($postdata),
     );
-    
+
     if (!$output = $curl->post($url, $postdata, $options)) {
         notice(get_string('nolicense', 'mod_regularvideo'));
     }
-    
+
     $resposedata = json_decode($output);
     $settingleeloolxp = $resposedata->data->vimeo_videos;
     $config = $settingleeloolxp;
 
     // Set the display options to the site defaults.
-    //$config = get_config('regularvideo');
+    // $config = get_config('regularvideo');
     $data->display = $config->display;
     $data->popupheight = $config->popupheight;
     $data->popupwidth = $config->popupwidth;

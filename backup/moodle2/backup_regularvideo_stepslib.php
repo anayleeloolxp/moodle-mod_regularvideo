@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -40,7 +39,7 @@ class backup_regularvideo_activity_structure_step extends backup_activity_struct
 
         // Define each element separated
         $regularvideo = new backup_nested_element('regularvideo', array('id'), array(
-            'name','vimeo_video_id','width','height','border','allow', 'intro', 'introformat', 'content', 'contentformat',
+            'name', 'vimeo_video_id', 'width', 'height', 'border', 'allow', 'intro', 'introformat', 'content', 'contentformat',
             'legacyfiles', 'legacyfileslast', 'display', 'displayoptions',
             'revision', 'timemodified'));
 

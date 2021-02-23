@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -27,8 +26,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $logs = array(
-    array('module'=>'regularvideo', 'action'=>'view', 'mtable'=>'regularvideo', 'field'=>'name'),
-    array('module'=>'regularvideo', 'action'=>'view all', 'mtable'=>'regularvideo', 'field'=>'name'),
-    array('module'=>'regularvideo', 'action'=>'update', 'mtable'=>'regularvideo', 'field'=>'name'),
-    array('module'=>'regularvideo', 'action'=>'add', 'mtable'=>'regularvideo', 'field'=>'name'),
+    array('module' => 'regularvideo', 'action' => 'view', 'mtable' => 'regularvideo', 'field' => 'name'),
+    array('module' => 'regularvideo', 'action' => 'view all', 'mtable' => 'regularvideo', 'field' => 'name'),
+    array('module' => 'regularvideo', 'action' => 'update', 'mtable' => 'regularvideo', 'field' => 'name'),
+    array('module' => 'regularvideo', 'action' => 'add', 'mtable' => 'regularvideo', 'field' => 'name'),
 );

@@ -31,7 +31,7 @@ $capabilities = array(
         'archetypes' => array(
             'guest' => CAP_ALLOW,
             'user' => CAP_ALLOW,
-        )
+        ),
     ),
 
     'mod/regularvideo:addinstance' => array(
@@ -41,21 +41,20 @@ $capabilities = array(
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
             'editingteacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
+            'manager' => CAP_ALLOW,
         ),
-        'clonepermissionsfrom' => 'moodle/course:manageactivities'
+        'clonepermissionsfrom' => 'moodle/course:manageactivities',
     ),
-
 
 /* TODO: review public portfolio API first!
-    'mod/regularvideo:portfolioexport' => array(
+'mod/regularvideo:portfolioexport' => array(
 
-        'captype' => 'read',
-        'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => array(
-            'teacher' => CAP_ALLOW,
-            'editingteacher' => CAP_ALLOW,
-        )
-    ),
-*/
+'captype' => 'read',
+'contextlevel' => CONTEXT_MODULE,
+'archetypes' => array(
+'teacher' => CAP_ALLOW,
+'editingteacher' => CAP_ALLOW,
+)
+),
+ */
 );

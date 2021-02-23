@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -142,7 +141,13 @@ if (!empty($options['printintro'])) {
 }
 
 if ($regularvideo->vimeo_video_id && $show == 1) {
-    echo '<iframe id="vimeoiframe" src="https://player.vimeo.com/video/' . $regularvideo->vimeo_video_id . '" width="' . $regularvideo->width . '" height="' . $regularvideo->height . '" frameborder="' . $regularvideo->border . '" allow="' . $regularvideo->allow . '" allowfullscreen=""></iframe>';
+    echo '<iframe
+    id="vimeoiframe"
+    src="https://player.vimeo.com/video/' . $regularvideo->vimeo_video_id . '"
+    width="' . $regularvideo->width . '"
+    height="' . $regularvideo->height . '"
+    frameborder="' . $regularvideo->border . '"
+    allow="' . $regularvideo->allow . '" allowfullscreen=""></iframe>';
 }
 
 $content = file_rewrite_pluginfile_urls($regularvideo->content, 'pluginfile.php', $context->id, 'mod_regularvideo', 'content', $regularvideo->revision);
@@ -161,16 +166,15 @@ if ($show == 1) {
 
         player.on("ended", function() {
             console.log("ended the video!");
-            /*$.ajax( {
-                url:"' . $CFG->wwwroot . '/mod/regularvideo/mark_complete.php?cm=' . $cm->id . '",
-                success:function(data) {console.log("marked complete");}
-            });
 
-            $.post("' . $CFG->wwwroot . '/course/togglecompletion.php", {id:"' . $cm->id . '", completionstate:"1", fromajax:"1", sesskey:"' . $USER->sesskey . '"}, function(response){
-                console.log("marked complete");
-            });*/
-
-            $.post("' . $CFG->wwwroot . '/mod/regularvideo/markcomplete.php", {id:"' . $cm->id . '", completionstate:"1", fromajax:"1", sesskey:"' . $USER->sesskey . '"}, function(response){
+            $.post(
+                "' . $CFG->wwwroot . '/mod/regularvideo/markcomplete.php",
+                {
+                    id:"' . $cm->id . '",
+                    completionstate:"1",
+                    fromajax:"1",
+                    sesskey:"' . $USER->sesskey . '"
+                }, function(response){
                 console.log("marked complete");
             });
 
@@ -185,8 +189,5 @@ if ($show == 1) {
         });
     </script>';
 }
-// LUDO: REMOVE LAST MODIFIED
-// $strlastmodified = get_string("lastmodified");
-// echo "<div class=\"modified\">$strlastmodified: ".userdate($regularvideo->timemodified)."</div>";
 
 echo $OUTPUT->footer();

@@ -29,12 +29,12 @@ defined('MOODLE_INTERNAL') || die;
 $functions = array(
 
     'mod_regularvideo_view_regularvideo' => array(
-        'classname'     => 'mod_regularvideo_external',
-        'methodname'    => 'view_regularvideo',
-        'description'   => 'Simulate the view.php web interface page: trigger events, completion, etc...',
-        'type'          => 'write',
-        'capabilities'  => 'mod/regularvideo:view',
-        'services'      => array(MOODLE_OFFICIAL_MOBILE_SERVICE)
+        'classname' => 'mod_regularvideo_external',
+        'methodname' => 'view_regularvideo',
+        'description' => 'Simulate the view.php web interface page: trigger events, completion, etc...',
+        'type' => 'write',
+        'capabilities' => 'mod/regularvideo:view',
+        'services' => array(MOODLE_OFFICIAL_MOBILE_SERVICE),
     ),
 
 );

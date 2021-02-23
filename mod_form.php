@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -30,7 +29,7 @@ require_once($CFG->dirroot . '/mod/regularvideo/locallib.php');
 require_once($CFG->libdir . '/filelib.php');
 
 class mod_regularvideo_mod_form extends moodleform_mod {
-    function definition() {
+    public function definition() {
         global $CFG, $DB;
 
         $mform = $this->_form;
@@ -167,26 +166,34 @@ class mod_regularvideo_mod_form extends moodleform_mod {
         $mform->setDefault('revision', 1);
     }
 
-    function data_preprocessing(&$default_values) {
+    public function data_preprocessing(&$defaultvalues) {
         if ($this->current->instance) {
             $draftitemid = file_get_submitted_draft_itemid('regularvideo');
-            $default_values['regularvideo']['format'] = $default_values['contentformat'];
-            $default_values['regularvideo']['text'] = file_prepare_draft_area($draftitemid, $this->context->id, 'mod_regularvideo', 'content', 0, regularvideo_get_editor_options($this->context), $default_values['content']);
-            $default_values['regularvideo']['itemid'] = $draftitemid;
+            $defaultvalues['regularvideo']['format'] = $defaultvalues['contentformat'];
+            $defaultvalues['regularvideo']['text'] = file_prepare_draft_area(
+                $draftitemid,
+                $this->context->id,
+                'mod_regularvideo',
+                'content',
+                0,
+                regularvideo_get_editor_options($this->context),
+                $defaultvalues['content']
+            );
+            $defaultvalues['regularvideo']['itemid'] = $draftitemid;
         }
-        if (!empty($default_values['displayoptions'])) {
-            $displayoptions = unserialize($default_values['displayoptions']);
+        if (!empty($defaultvalues['displayoptions'])) {
+            $displayoptions = unserialize($defaultvalues['displayoptions']);
             if (isset($displayoptions['printintro'])) {
-                $default_values['printintro'] = $displayoptions['printintro'];
+                $defaultvalues['printintro'] = $displayoptions['printintro'];
             }
             if (isset($displayoptions['printheading'])) {
-                $default_values['printheading'] = $displayoptions['printheading'];
+                $defaultvalues['printheading'] = $displayoptions['printheading'];
             }
             if (!empty($displayoptions['popupwidth'])) {
-                $default_values['popupwidth'] = $displayoptions['popupwidth'];
+                $defaultvalues['popupwidth'] = $displayoptions['popupwidth'];
             }
             if (!empty($displayoptions['popupheight'])) {
-                $default_values['popupheight'] = $displayoptions['popupheight'];
+                $defaultvalues['popupheight'] = $displayoptions['popupheight'];
             }
         }
     }

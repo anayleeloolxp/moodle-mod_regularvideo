@@ -32,13 +32,12 @@ $moduleid = $_REQUEST['cm'];
 
 $userid = $USER->id;
 
-if( isset($moduleid) && isset($moduleid)!='' && isset($userid) && isset($userid)!='' ){
-
-    $check_completion = $DB->get_record_sql('SELECT COUNT(*) as iscompleted FROM {course_modules_completion} WHERE `coursemoduleid` = '.$moduleid.' AND `userid` = '.$userid);
+if (isset($moduleid) && isset($moduleid) != '' && isset($userid) && isset($userid) != '') {
+    $check_completion = $DB->get_record_sql('SELECT COUNT(*) as iscompleted FROM {course_modules_completion} WHERE `coursemoduleid` = ' . $moduleid . ' AND `userid` = ' . $userid);
 
     $iscompleted = $check_completion->iscompleted;
 
-    if($iscompleted == 0){
+    if ($iscompleted == 0) {
         $object = new stdClass;
         $object->coursemoduleid = $moduleid;
         $object->userid = $userid;
@@ -48,7 +47,6 @@ if( isset($moduleid) && isset($moduleid)!='' && isset($userid) && isset($userid)
 
         $DB->insert_record('course_modules_completion', $object);
     }
-
 }
 
 die;

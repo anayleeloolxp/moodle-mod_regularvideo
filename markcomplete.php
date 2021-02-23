@@ -27,7 +27,7 @@
  */
 
 require_once('../../config.php');
-require_once($CFG->libdir.'/completionlib.php');
+require_once($CFG->libdir . '/completionlib.php');
 
 // Parameters
 $cmid = optional_param('id', 0, PARAM_INT);
@@ -43,21 +43,21 @@ if (!$cmid && !$courseid) {
 }
 
 $targetstate = required_param('completionstate', PARAM_INT);
-$fromajax    = optional_param('fromajax', 0, PARAM_INT);
+$fromajax = optional_param('fromajax', 0, PARAM_INT);
 
-$PAGE->set_url('/course/togglecompletion.php', array('id'=>$cmid, 'completionstate'=>$targetstate));
+$PAGE->set_url('/course/togglecompletion.php', array('id' => $cmid, 'completionstate' => $targetstate));
 
-switch($targetstate) {
-    case COMPLETION_COMPLETE:
-    case COMPLETION_INCOMPLETE:
-        break;
-    default:
-        print_error('unsupportedstate');
+switch ($targetstate) {
+case COMPLETION_COMPLETE:
+case COMPLETION_INCOMPLETE:
+    break;
+default:
+    print_error('unsupportedstate');
 }
 
 // Get course-modules entry
 $cm = get_coursemodule_from_id(null, $cmid, null, true, MUST_EXIST);
-$course = $DB->get_record('course', array('id'=>$cm->course), '*', MUST_EXIST);
+$course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
 
 // Check user is logged in
 require_login($course, false, $cm);
@@ -81,7 +81,7 @@ if (!$completion->is_enabled()) {
 // your own completion state. You just don't appear on the reports.)
 
 // Check completion state is manual
-if($cm->completion != COMPLETION_TRACKING_MANUAL) {
+if ($cm->completion != COMPLETION_TRACKING_MANUAL) {
     error_or_ajax('cannotmanualctrack', $fromajax);
 }
 
@@ -111,4 +111,3 @@ function error_or_ajax($message, $fromajax) {
         print_error($message);
     }
 }
-

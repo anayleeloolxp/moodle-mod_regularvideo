@@ -24,22 +24,24 @@
  */
 
 require('../../config.php');
-require_once($CFG->dirroot.'/mod/regularvideo/locallib.php');
-require_once($CFG->libdir.'/completionlib.php');
+require_once($CFG->dirroot . '/mod/regularvideo/locallib.php');
+require_once($CFG->libdir . '/completionlib.php');
 
 global $CFG;
 require_once($CFG->libdir . '/filelib.php');
 
 $leeloolxplicense = get_config('mod_regularvideo')->license;
 $url = 'https://leeloolxp.com/api_moodle.php/?action=page_info';
-$postdata = '&license_key=' . $leeloolxplicense;
+$postdata = [
+    'license_key' => $leeloolxplicense,
+];
 
 $curl = new curl;
 
 $options = array(
     'CURLOPT_RETURNTRANSFER' => true,
     'CURLOPT_HEADER' => false,
-    'CURLOPT_POST' => 1,
+    'CURLOPT_POST' => count($postdata),
 );
 
 if (!$output = $curl->post($url, $postdata, $options)) {
@@ -56,14 +58,16 @@ if ($infoleeloolxp->status != 'false') {
 
 $url = $leeloolxpurl . '/admin/Theme_setup/get_vimeo_videos_settings';
 
-$postdata = '&license_key=' . $leeloolxplicense;
+$postdata = [
+    'license_key' => $leeloolxplicense,
+];
 
 $curl = new curl;
 
 $options = array(
     'CURLOPT_RETURNTRANSFER' => true,
     'CURLOPT_HEADER' => false,
-    'CURLOPT_POST' => 1,
+    'CURLOPT_POST' => count($postdata),
 );
 
 $show = 1;
@@ -73,24 +77,23 @@ if (!$output = $curl->post($url, $postdata, $options)) {
     $show = 0;
 }
 
-$id      = optional_param('id', 0, PARAM_INT); // Course Module ID
-$p       = optional_param('p', 0, PARAM_INT);  // Page instance ID
+$id = optional_param('id', 0, PARAM_INT); // Course Module ID
+$p = optional_param('p', 0, PARAM_INT); // Page instance ID
 $inpopup = optional_param('inpopup', 0, PARAM_BOOL);
 
 if ($p) {
-    if (!$regularvideo = $DB->get_record('regularvideo', array('id'=>$p))) {
+    if (!$regularvideo = $DB->get_record('regularvideo', array('id' => $p))) {
         print_error('invalidaccessparameter');
     }
     $cm = get_coursemodule_from_instance('regularvideo', $regularvideo->id, $regularvideo->course, false, MUST_EXIST);
-
 } else {
     if (!$cm = get_coursemodule_from_id('regularvideo', $id)) {
         print_error('invalidcoursemodule');
     }
-    $regularvideo = $DB->get_record('regularvideo', array('id'=>$cm->instance), '*', MUST_EXIST);
+    $regularvideo = $DB->get_record('regularvideo', array('id' => $cm->instance), '*', MUST_EXIST);
 }
 
-$course = $DB->get_record('course', array('id'=>$cm->course), '*', MUST_EXIST);
+$course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
 
 require_course_login($course, true, $cm);
 $context = context_module::instance($cm->id);
@@ -98,8 +101,8 @@ require_capability('mod/regularvideo:view', $context);
 
 // Trigger module viewed event.
 $event = \mod_regularvideo\event\course_module_viewed::create(array(
-   'objectid' => $regularvideo->id,
-   'context' => $context
+    'objectid' => $regularvideo->id,
+    'context' => $context,
 ));
 $event->add_record_snapshot('course_modules', $cm);
 $event->add_record_snapshot('course', $course);
@@ -109,7 +112,7 @@ $event->trigger();
 // Update 'viewed' state if required by completion system
 require_once($CFG->libdir . '/completionlib.php');
 $completion = new completion_info($course);
-//$completion->set_module_viewed($cm);
+// $completion->set_module_viewed($cm);
 
 $PAGE->set_url('/mod/regularvideo/view.php', array('id' => $cm->id));
 
@@ -117,14 +120,13 @@ $options = empty($regularvideo->displayoptions) ? array() : unserialize($regular
 
 if ($inpopup and $regularvideo->display == RESOURCELIB_DISPLAY_POPUP) {
     $PAGE->set_regularvideolayout('popup');
-    $PAGE->set_title($course->shortname.': '.$regularvideo->name);
+    $PAGE->set_title($course->shortname . ': ' . $regularvideo->name);
     $PAGE->set_heading($course->fullname);
 } else {
-    $PAGE->set_title($course->shortname.': '.$regularvideo->name);
+    $PAGE->set_title($course->shortname . ': ' . $regularvideo->name);
     $PAGE->set_heading($course->fullname);
     $PAGE->set_activity_record($regularvideo);
     $_SESSION['regularvideo'] = $regularvideo;
-
 }
 echo $OUTPUT->header();
 if (!isset($options['printheading']) || !empty($options['printheading'])) {
@@ -139,8 +141,8 @@ if (!empty($options['printintro'])) {
     }
 }
 
-if($regularvideo->vimeo_video_id && $show == 1){
-    echo '<iframe id="vimeoiframe" src="https://player.vimeo.com/video/'.$regularvideo->vimeo_video_id.'" width="'.$regularvideo->width.'" height="'.$regularvideo->height.'" frameborder="'.$regularvideo->border.'" allow="'.$regularvideo->allow.'" allowfullscreen=""></iframe>';
+if ($regularvideo->vimeo_video_id && $show == 1) {
+    echo '<iframe id="vimeoiframe" src="https://player.vimeo.com/video/' . $regularvideo->vimeo_video_id . '" width="' . $regularvideo->width . '" height="' . $regularvideo->height . '" frameborder="' . $regularvideo->border . '" allow="' . $regularvideo->allow . '" allowfullscreen=""></iframe>';
 }
 
 $content = file_rewrite_pluginfile_urls($regularvideo->content, 'pluginfile.php', $context->id, 'mod_regularvideo', 'content', $regularvideo->revision);
@@ -151,7 +153,7 @@ $formatoptions->context = $context;
 $content = format_text($content, $regularvideo->contentformat, $formatoptions);
 echo $OUTPUT->box($content, "generalbox center clearfix");
 global $USER;
-if($show == 1){
+if ($show == 1) {
     echo '<script src="https://player.vimeo.com/api/player.js"></script>
     <script>
         var iframe = document.querySelector("#vimeoiframe");
@@ -160,18 +162,18 @@ if($show == 1){
         player.on("ended", function() {
             console.log("ended the video!");
             /*$.ajax( {
-                url:"'.$CFG->wwwroot.'/mod/regularvideo/mark_complete.php?cm='.$cm->id.'",
+                url:"' . $CFG->wwwroot . '/mod/regularvideo/mark_complete.php?cm=' . $cm->id . '",
                 success:function(data) {console.log("marked complete");}
             });
 
-            $.post("'.$CFG->wwwroot.'/course/togglecompletion.php", {id:"'.$cm->id.'", completionstate:"1", fromajax:"1", sesskey:"'.$USER->sesskey.'"}, function(response){ 
+            $.post("' . $CFG->wwwroot . '/course/togglecompletion.php", {id:"' . $cm->id . '", completionstate:"1", fromajax:"1", sesskey:"' . $USER->sesskey . '"}, function(response){
                 console.log("marked complete");
             });*/
 
-            $.post("'.$CFG->wwwroot.'/mod/regularvideo/markcomplete.php", {id:"'.$cm->id.'", completionstate:"1", fromajax:"1", sesskey:"'.$USER->sesskey.'"}, function(response){ 
+            $.post("' . $CFG->wwwroot . '/mod/regularvideo/markcomplete.php", {id:"' . $cm->id . '", completionstate:"1", fromajax:"1", sesskey:"' . $USER->sesskey . '"}, function(response){
                 console.log("marked complete");
             });
-        
+
         });
 
         player.on("play", function() {
@@ -184,7 +186,7 @@ if($show == 1){
     </script>';
 }
 // LUDO: REMOVE LAST MODIFIED
-//$strlastmodified = get_string("lastmodified");
-//echo "<div class=\"modified\">$strlastmodified: ".userdate($regularvideo->timemodified)."</div>";
+// $strlastmodified = get_string("lastmodified");
+// echo "<div class=\"modified\">$strlastmodified: ".userdate($regularvideo->timemodified)."</div>";
 
 echo $OUTPUT->footer();

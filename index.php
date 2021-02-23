@@ -27,7 +27,7 @@ require('../../config.php');
 
 $id = required_param('id', PARAM_INT); // course id
 
-$course = $DB->get_record('course', array('id'=>$id), '*', MUST_EXIST);
+$course = $DB->get_record('course', array('id' => $id), '*', MUST_EXIST);
 
 require_course_login($course, true);
 $PAGE->set_regularvideolayout('incourse');
@@ -37,14 +37,14 @@ $event = \mod_regularvideo\event\course_module_instance_list_viewed::create(arra
 $event->add_record_snapshot('course', $course);
 $event->trigger();
 
-$strregularvideo         = get_string('modulename', 'regularvideo');
-$strregularvideos        = get_string('modulenameplural', 'regularvideo');
-$strname         = get_string('name');
-$strintro        = get_string('moduleintro');
+$strregularvideo = get_string('modulename', 'regularvideo');
+$strregularvideos = get_string('modulenameplural', 'regularvideo');
+$strname = get_string('name');
+$strintro = get_string('moduleintro');
 $strlastmodified = get_string('lastmodified');
 
 $PAGE->set_url('/mod/regularvideo/index.php', array('id' => $course->id));
-$PAGE->set_title($course->shortname.': '.$strregularvideos);
+$PAGE->set_title($course->shortname . ': ' . $strregularvideos);
 $PAGE->set_heading($course->fullname);
 $PAGE->navbar->add($strregularvideos);
 echo $OUTPUT->header();
@@ -60,12 +60,12 @@ $table = new html_table();
 $table->attributes['class'] = 'generaltable mod_index';
 
 if ($usesections) {
-    $strsectionname = get_string('sectionname', 'format_'.$course->format);
-    $table->head  = array ($strsectionname, $strname, $strintro);
-    $table->align = array ('center', 'left', 'left');
+    $strsectionname = get_string('sectionname', 'format_' . $course->format);
+    $table->head = array($strsectionname, $strname, $strintro);
+    $table->align = array('center', 'left', 'left');
 } else {
-    $table->head  = array ($strlastmodified, $strname, $strintro);
-    $table->align = array ('left', 'left', 'left');
+    $table->head = array($strlastmodified, $strname, $strintro);
+    $table->align = array('left', 'left', 'left');
 }
 
 $modinfo = get_fast_modinfo($course);
@@ -84,14 +84,14 @@ foreach ($regularvideos as $regularvideo) {
             $currentsection = $regularvideo->section;
         }
     } else {
-        $printsection = '<span class="smallinfo">'.userdate($regularvideo->timemodified)."</span>";
+        $printsection = '<span class="smallinfo">' . userdate($regularvideo->timemodified) . "</span>";
     }
 
     $class = $regularvideo->visible ? '' : 'class="dimmed"'; // hidden modules are dimmed
 
-    $table->data[] = array (
+    $table->data[] = array(
         $printsection,
-        "<a $class href=\"view.php?id=$cm->id\">".format_string($regularvideo->name)."</a>",
+        "<a $class href=\"view.php?id=$cm->id\">" . format_string($regularvideo->name) . "</a>",
         format_module_intro('regularvideo', $regularvideo, $cm->id));
 }
 

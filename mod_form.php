@@ -25,9 +25,9 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-require_once($CFG->dirroot.'/course/moodleform_mod.php');
-require_once($CFG->dirroot.'/mod/regularvideo/locallib.php');
-require_once($CFG->libdir.'/filelib.php');
+require_once($CFG->dirroot . '/course/moodleform_mod.php');
+require_once($CFG->dirroot . '/mod/regularvideo/locallib.php');
+require_once($CFG->libdir . '/filelib.php');
 
 class mod_regularvideo_mod_form extends moodleform_mod {
     function definition() {
@@ -39,53 +39,54 @@ class mod_regularvideo_mod_form extends moodleform_mod {
 
         $leeloolxplicense = get_config('mod_regularvideo')->license;
         $url = 'https://leeloolxp.com/api_moodle.php/?action=page_info';
-        $postdata = '&license_key=' . $leeloolxplicense;
+        $postdata = [
+            'license_key' => $leeloolxplicense,
+        ];
 
         $curl = new curl;
 
         $options = array(
             'CURLOPT_RETURNTRANSFER' => true,
             'CURLOPT_HEADER' => false,
-            'CURLOPT_POST' => 1,
+            'CURLOPT_POST' => count($postdata),
         );
 
         if (!$output = $curl->post($url, $postdata, $options)) {
             notice(get_string('nolicense', 'mod_regularvideo'));
         }
-        
+
         $infoleeloolxp = json_decode($output);
-        
+
         if ($infoleeloolxp->status != 'false') {
             $leeloolxpurl = $infoleeloolxp->data->install_url;
         } else {
             notice(get_string('nolicense', 'mod_regularvideo'));
         }
-        
+
         $url = $leeloolxpurl . '/admin/Theme_setup/get_vimeo_videos_settings';
-        
-        $postdata = '&license_key=' . $leeloolxplicense;
-        
+
+        $postdata = [
+            'license_key' => $leeloolxplicense,
+        ];
+
         $curl = new curl;
-        
+
         $options = array(
             'CURLOPT_RETURNTRANSFER' => true,
             'CURLOPT_HEADER' => false,
-            'CURLOPT_POST' => 1,
+            'CURLOPT_POST' => count($postdata),
         );
-        
+
         if (!$output = $curl->post($url, $postdata, $options)) {
             notice(get_string('nolicense', 'mod_regularvideo'));
         }
-        
+
         $resposedata = json_decode($output);
         $settingleeloolxp = $resposedata->data->vimeo_videos;
         $config = $settingleeloolxp;
 
-        //$config = get_config('regularvideo');
-
-        //-------------------------------------------------------
         $mform->addElement('header', 'general', get_string('general', 'form'));
-        $mform->addElement('text', 'name', get_string('name'), array('size'=>'48'));
+        $mform->addElement('text', 'name', get_string('name'), array('size' => '48'));
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType('name', PARAM_TEXT);
         } else {
@@ -95,15 +96,13 @@ class mod_regularvideo_mod_form extends moodleform_mod {
         $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
         $this->standard_intro_elements();
 
-        //-------------------------------------------------------
         $mform->addElement('header', 'contentsection', get_string('contentheader', 'regularvideo'));
 
-        $mform->addElement('float', 'vimeo_video_id', get_string('regular_vimeo_video_id', 'regularvideo'), array('size'=>'48'));
-        $mform->addElement('float', 'width', get_string('regular_width', 'regularvideo'), array('size'=>'48'));
-        $mform->addElement('float', 'height', get_string('regular_height', 'regularvideo'), array('size'=>'48'));
-        //$mform->addElement('text', 'border', get_string('regular_border'), array('size'=>'48'));
+        $mform->addElement('float', 'vimeo_video_id', get_string('regular_vimeo_video_id', 'regularvideo'), array('size' => '48'));
+        $mform->addElement('float', 'width', get_string('regular_width', 'regularvideo'), array('size' => '48'));
+        $mform->addElement('float', 'height', get_string('regular_height', 'regularvideo'), array('size' => '48'));
         $mform->addElement('advcheckbox', 'border', get_string('regular_border', 'regularvideo'));
-        $mform->addElement('text', 'allow', get_string('regular_allow', 'regularvideo'), array('size'=>'48'));
+        $mform->addElement('text', 'allow', get_string('regular_allow', 'regularvideo'), array('size' => '48'));
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType('allow', PARAM_TEXT);
         } else {
@@ -113,7 +112,6 @@ class mod_regularvideo_mod_form extends moodleform_mod {
         $mform->addElement('editor', 'regularvideo', get_string('content', 'regularvideo'), null, regularvideo_get_editor_options($this->context));
         $mform->addRule('regularvideo', get_string('required'), 'required', null, 'client');
 
-        //-------------------------------------------------------
         $mform->addElement('header', 'appearancehdr', get_string('appearance'));
 
         if ($this->current->instance) {
@@ -132,14 +130,14 @@ class mod_regularvideo_mod_form extends moodleform_mod {
         }
 
         if (array_key_exists(RESOURCELIB_DISPLAY_POPUP, $options)) {
-            $mform->addElement('text', 'popupwidth', get_string('popupwidth', 'regularvideo'), array('size'=>3));
+            $mform->addElement('text', 'popupwidth', get_string('popupwidth', 'regularvideo'), array('size' => 3));
             if (count($options) > 1) {
                 $mform->disabledIf('popupwidth', 'display', 'noteq', RESOURCELIB_DISPLAY_POPUP);
             }
             $mform->setType('popupwidth', PARAM_INT);
             $mform->setDefault('popupwidth', $config->popupwidth);
 
-            $mform->addElement('text', 'popupheight', get_string('popupheight', 'regularvideo'), array('size'=>3));
+            $mform->addElement('text', 'popupheight', get_string('popupheight', 'regularvideo'), array('size' => 3));
             if (count($options) > 1) {
                 $mform->disabledIf('popupheight', 'display', 'noteq', RESOURCELIB_DISPLAY_POPUP);
             }
@@ -152,21 +150,18 @@ class mod_regularvideo_mod_form extends moodleform_mod {
         $mform->addElement('advcheckbox', 'printintro', get_string('printintro', 'regularvideo'));
         $mform->setDefault('printintro', $config->printintro);
 
-        // add legacy files flag only if used
+        // Add legacy files flag only if used
         if (isset($this->current->legacyfiles) and $this->current->legacyfiles != RESOURCELIB_LEGACYFILES_NO) {
-            $options = array(RESOURCELIB_LEGACYFILES_DONE   => get_string('legacyfilesdone', 'regularvideo'),
-                             RESOURCELIB_LEGACYFILES_ACTIVE => get_string('legacyfilesactive', 'regularvideo'));
+            $options = array(RESOURCELIB_LEGACYFILES_DONE => get_string('legacyfilesdone', 'regularvideo'),
+                RESOURCELIB_LEGACYFILES_ACTIVE => get_string('legacyfilesactive', 'regularvideo'));
             $mform->addElement('select', 'legacyfiles', get_string('legacyfiles', 'regularvideo'), $options);
             $mform->setAdvanced('legacyfiles', 1);
         }
 
-        //-------------------------------------------------------
         $this->standard_coursemodule_elements();
 
-        //-------------------------------------------------------
         $this->add_action_buttons();
 
-        //-------------------------------------------------------
         $mform->addElement('hidden', 'revision');
         $mform->setType('revision', PARAM_INT);
         $mform->setDefault('revision', 1);
@@ -176,7 +171,7 @@ class mod_regularvideo_mod_form extends moodleform_mod {
         if ($this->current->instance) {
             $draftitemid = file_get_submitted_draft_itemid('regularvideo');
             $default_values['regularvideo']['format'] = $default_values['contentformat'];
-            $default_values['regularvideo']['text']   = file_prepare_draft_area($draftitemid, $this->context->id, 'mod_regularvideo', 'content', 0, regularvideo_get_editor_options($this->context), $default_values['content']);
+            $default_values['regularvideo']['text'] = file_prepare_draft_area($draftitemid, $this->context->id, 'mod_regularvideo', 'content', 0, regularvideo_get_editor_options($this->context), $default_values['content']);
             $default_values['regularvideo']['itemid'] = $draftitemid;
         }
         if (!empty($default_values['displayoptions'])) {
@@ -196,4 +191,3 @@ class mod_regularvideo_mod_form extends moodleform_mod {
         }
     }
 }
-

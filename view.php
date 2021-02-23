@@ -119,7 +119,7 @@ $PAGE->set_url('/mod/regularvideo/view.php', array('id' => $cm->id));
 $options = empty($regularvideo->displayoptions) ? array() : unserialize($regularvideo->displayoptions);
 
 if ($inpopup and $regularvideo->display == RESOURCELIB_DISPLAY_POPUP) {
-    $PAGE->set_regularvideolayout('popup');
+    $PAGE->set_pagelayout('popup');
     $PAGE->set_title($course->shortname . ': ' . $regularvideo->name);
     $PAGE->set_heading($course->fullname);
 } else {

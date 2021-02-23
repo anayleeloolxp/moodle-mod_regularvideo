@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Library functions
+ * 
  * @package mod_regularvideo
  * @copyright  2009 Petr Skoda (http://skodak.org)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -47,13 +49,14 @@ function regularvideo_supports($feature) {
             return true;
         case FEATURE_SHOW_DESCRIPTION:
             return true;
-
-        default:return null;
+        default:
+            return null;
     }
 }
 
 /**
  * Returns all other caps used in module
+ * 
  * @return array
  */
 function regularvideo_get_extra_capabilities() {
@@ -62,7 +65,8 @@ function regularvideo_get_extra_capabilities() {
 
 /**
  * This function is used by the reset_course_userdata function in moodlelib.
- * @param $data the data submitted from the reset course.
+ * 
+ * @param array $data the data submitted from the reset course.
  * @return array status array
  */
 function regularvideo_reset_userdata($data) {
@@ -203,8 +207,6 @@ function regularvideo_delete_instance($id) {
  * "extra" information that may be needed when printing
  * this activity in a course listing.
  *
- * See {@link get_array_of_activities()} in course/lib.php
- *
  * @param stdClass $coursemodule
  * @return cached_cm_info Info to customise main regularvideo display
  */
@@ -335,7 +337,7 @@ function regularvideo_pluginfile($course, $cm, $context, $filearea, $args, $forc
         return false;
     }
 
-    //   require_course_login($course, true, $cm);
+    // require_course_login($course, true, $cm);
 
     if (!has_capability('mod/regularvideo:view', $context)) {
         return false;
@@ -395,13 +397,16 @@ function regularvideo_pluginfile($course, $cm, $context, $filearea, $args, $forc
  * @param stdClass $currentcontext Current context of block
  */
 function regularvideo_regularvideo_type_list($regularvideotype, $parentcontext, $currentcontext) {
-    $module_regularvideotype = array('mod-regularvideo-*' => get_string('regularvideo-mod-regularvideo-x', 'regularvideo'));
-    return $module_regularvideotype;
+    $moduleregularvideotype = array('mod-regularvideo-*' => get_string('regularvideo-mod-regularvideo-x', 'regularvideo'));
+    return $moduleregularvideotype;
 }
 
 /**
  * Export regularvideo resource contents
  *
+ * @param object $cm cm
+ * @param string $baseurl baseurl
+ * 
  * @return array of file content
  */
 function regularvideo_export_contents($cm, $baseurl) {
@@ -420,7 +425,11 @@ function regularvideo_export_contents($cm, $baseurl) {
         $file['filename'] = $fileinfo->get_filename();
         $file['filepath'] = $fileinfo->get_filepath();
         $file['filesize'] = $fileinfo->get_filesize();
-        $file['fileurl'] = file_encode_url("$CFG->wwwroot/" . $baseurl, '/' . $context->id . '/mod_regularvideo/content/' . $regularvideo->revision . $fileinfo->get_filepath() . $fileinfo->get_filename(), true);
+        $file['fileurl'] = file_encode_url(
+            "$CFG->wwwroot/" . $baseurl,
+            '/' . $context->id . '/mod_regularvideo/content/' . $regularvideo->revision . $fileinfo->get_filepath() . $fileinfo->get_filename(),
+            true
+        );
         $file['timecreated'] = $fileinfo->get_timecreated();
         $file['timemodified'] = $fileinfo->get_timemodified();
         $file['sortorder'] = $fileinfo->get_sortorder();

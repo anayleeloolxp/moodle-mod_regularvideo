@@ -18,11 +18,9 @@
  * Toggles the manual completion flag for a particular activity or course completion
  * and the current user.
  *
- * If by student params: course=2
- * If by manager params: course=2&user=4&rolec=3&sesskey=ghfgsdf
- *
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @package course
+ * @package mod_regularvideo
+ * @copyright  2009 Petr Skoda (http://skodak.org)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require_once('../../config.php');
@@ -101,7 +99,12 @@ if ($fromajax) {
 }
 
 // utility functions
-
+/**
+ * Ajax check
+ * 
+ * @param string $message message
+ * @param string $fromajax fromajax
+ */    
 function error_or_ajax($message, $fromajax) {
     if ($fromajax) {
         print get_string($message, 'error');

@@ -48,7 +48,7 @@ class backup_regularvideo_activity_task extends backup_activity_task {
     /**
      * Encodes URLs to the index.php and view.php scripts
      *
-     * @param string $content some HTML text that eventually contains URLs to the activity instance scripts
+     * @param string $content some HTML text
      * @return string the content with the URLs encoded
      */
     static public function encode_content_links($content) {

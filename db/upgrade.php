@@ -44,6 +44,12 @@
 
 defined('MOODLE_INTERNAL') || die;
 
+/**
+ * Upgrade Script
+ *
+ * @param string $oldversion The oldversion
+ * @return bool Return true
+ */
 function xmldb_regularvideo_upgrade($oldversion) {
     global $CFG, $DB;
 

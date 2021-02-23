@@ -35,6 +35,9 @@ class moodle1_mod_regularvideo_handler extends moodle1_resource_successor_handle
     /**
      * Converts /MOODLE_BACKUP/COURSE/MODULES/MOD/RESOURCE data
      * Called by moodle1_mod_resource_handler::process_resource()
+     * 
+     * @param array $data
+     * @param array $raw
      */
     public function process_legacy_resource(array $data, array $raw = null) {
 

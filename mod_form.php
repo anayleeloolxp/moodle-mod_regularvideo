@@ -28,7 +28,14 @@ require_once($CFG->dirroot . '/course/moodleform_mod.php');
 require_once($CFG->dirroot . '/mod/regularvideo/locallib.php');
 require_once($CFG->libdir . '/filelib.php');
 
+/**
+ * Form Class
+ */
 class mod_regularvideo_mod_form extends moodleform_mod {
+
+    /**
+     * Defination of form
+     */
     public function definition() {
         global $CFG, $DB;
 
@@ -166,6 +173,11 @@ class mod_regularvideo_mod_form extends moodleform_mod {
         $mform->setDefault('revision', 1);
     }
 
+    /**
+     * Data processing
+     * 
+     * @param object $defaultvalues default values
+     */
     public function data_preprocessing(&$defaultvalues) {
         if ($this->current->instance) {
             $draftitemid = file_get_submitted_draft_itemid('regularvideo');

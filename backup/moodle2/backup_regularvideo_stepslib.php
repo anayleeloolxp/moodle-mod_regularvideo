@@ -32,6 +32,9 @@ defined('MOODLE_INTERNAL') || die;
  */
 class backup_regularvideo_activity_structure_step extends backup_activity_structure_step {
 
+    /**
+     * Define Structure
+     */
     protected function define_structure() {
 
         // To know if we are including userinfo

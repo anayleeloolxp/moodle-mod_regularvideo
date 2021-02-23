@@ -30,6 +30,9 @@
  */
 class restore_regularvideo_activity_structure_step extends restore_activity_structure_step {
 
+    /**
+     * Define Strucutre
+     */
     protected function define_structure() {
 
         $paths = array();
@@ -39,6 +42,11 @@ class restore_regularvideo_activity_structure_step extends restore_activity_stru
         return $this->prepare_activity_structure($paths);
     }
 
+    /**
+     * Process video
+     * 
+     * @param stdClass $data
+     */
     protected function process_regularvideo($data) {
         global $DB;
 
@@ -52,6 +60,9 @@ class restore_regularvideo_activity_structure_step extends restore_activity_stru
         $this->apply_activity_instance($newitemid);
     }
 
+    /**
+     * Fucntion after execute
+     */
     protected function after_execute() {
         // Add regularvideo related files, no need to match by itemname (just internally handled context)
         $this->add_related_files('mod_regularvideo', 'intro', null);

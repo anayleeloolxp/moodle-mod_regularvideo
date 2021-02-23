@@ -29,6 +29,9 @@
 
 defined('MOODLE_INTERNAL') || die;
 
+/**
+ * Custom code to be run on installing the plugin.
+ */
 function xmldb_regularvideo_install() {
     global $CFG;
 

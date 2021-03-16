@@ -15,38 +15,33 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Regular Video module version information
+ * Privacy Subsystem implementation for mod_wespher.
  *
- * @package mod_regularvideo
+ * @package   mod_wespher
  * @copyright  2020 Leeloo LXP (https://leeloolxp.com)
  * @author     Leeloo LXP <info@leeloolxp.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require('../../config.php');
+namespace mod_wespher\privacy;
 
-global $DB;
-global $USER;
+defined('MOODLE_INTERNAL') || die();
 
-$moduleid = optional_param('cm', 0, PARAM_RAW);
+/**
+ * Privacy Subsystem for mod_wespher implementing null_provider.
+ *
+ * @copyright  2020 Leeloo LXP (https://leeloolxp.com)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class provider implements \core_privacy\local\metadata\null_provider {
 
-$userid = $USER->id;
-
-if (isset($moduleid) && isset($moduleid) != '' && isset($userid) && isset($userid) != '') {
-    $checkcompletion = $DB->get_record_sql('SELECT COUNT(*) as iscompleted FROM {course_modules_completion} WHERE `coursemoduleid` = ? AND `userid` = ?', [$moduleid, $userid]);
-
-    $iscompleted = $checkcompletion->iscompleted;
-
-    if ($iscompleted == 0) {
-        $object = new stdClass;
-        $object->coursemoduleid = $moduleid;
-        $object->userid = $userid;
-        $object->completionstate = 1;
-        $object->viewed = 1;
-        $object->timemodified = time();
-
-        $DB->insert_record('course_modules_completion', $object);
+    /**
+     * Get the language string identifier with the component's language
+     * file to explain why this plugin stores no data.
+     *
+     * @return  string
+     */
+    public static function get_reason(): string {
+        return 'privacy:metadata';
     }
 }
-
-die;

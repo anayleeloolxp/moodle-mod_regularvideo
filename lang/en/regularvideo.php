@@ -71,3 +71,5 @@ $string['videocompletewathcedgroup'] = 'Watch Video';
 
 $string['nolicense'] = 'Invalid Leeloo LXP License ID';
 $string['license'] = 'Leeloo LXP License ID';
+
+$string['privacy:metadata'] = 'The Leeloo LXP Vimeo Videos plugin only shows information and does not store user data.';

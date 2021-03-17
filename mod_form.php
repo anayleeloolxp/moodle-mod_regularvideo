@@ -60,6 +60,7 @@ class mod_regularvideo_mod_form extends moodleform_mod {
 
         if (!$output = $curl->post($url, $postdata, $options)) {
             notice(get_string('nolicense', 'mod_regularvideo'));
+            return;
         }
 
         $infoleeloolxp = json_decode($output);
@@ -68,6 +69,7 @@ class mod_regularvideo_mod_form extends moodleform_mod {
             $leeloolxpurl = $infoleeloolxp->data->install_url;
         } else {
             notice(get_string('nolicense', 'mod_regularvideo'));
+            return;
         }
 
         $url = $leeloolxpurl . '/admin/Theme_setup/get_vimeo_videos_settings';
@@ -86,9 +88,16 @@ class mod_regularvideo_mod_form extends moodleform_mod {
 
         if (!$output = $curl->post($url, $postdata, $options)) {
             notice(get_string('nolicense', 'mod_regularvideo'));
+            return;
         }
 
         $resposedata = json_decode($output);
+
+        if (!isset($resposedata->data->vimeo_videos)) {
+            notice(get_string('updatesetting', 'mod_regularvideo'));
+            return;
+        }
+
         $settingleeloolxp = $resposedata->data->vimeo_videos;
         $config = $settingleeloolxp;
 

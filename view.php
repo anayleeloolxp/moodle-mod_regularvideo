@@ -30,53 +30,6 @@ require_once($CFG->libdir . '/completionlib.php');
 global $CFG;
 require_once($CFG->libdir . '/filelib.php');
 
-$leeloolxplicense = get_config('mod_regularvideo')->license;
-$url = 'https://leeloolxp.com/api_moodle.php/?action=page_info';
-$postdata = [
-    'license_key' => $leeloolxplicense,
-];
-
-$curl = new curl;
-
-$options = array(
-    'CURLOPT_RETURNTRANSFER' => true,
-    'CURLOPT_HEADER' => false,
-    'CURLOPT_POST' => count($postdata),
-);
-
-if (!$output = $curl->post($url, $postdata, $options)) {
-    notice(get_string('nolicense', 'mod_regularvideo'));
-}
-
-$infoleeloolxp = json_decode($output);
-
-if ($infoleeloolxp->status != 'false') {
-    $leeloolxpurl = $infoleeloolxp->data->install_url;
-} else {
-    notice(get_string('nolicense', 'mod_regularvideo'));
-}
-
-$url = $leeloolxpurl . '/admin/Theme_setup/get_vimeo_videos_settings';
-
-$postdata = [
-    'license_key' => $leeloolxplicense,
-];
-
-$curl = new curl;
-
-$options = array(
-    'CURLOPT_RETURNTRANSFER' => true,
-    'CURLOPT_HEADER' => false,
-    'CURLOPT_POST' => count($postdata),
-);
-
-$show = 1;
-
-if (!$output = $curl->post($url, $postdata, $options)) {
-    notice(get_string('nolicense', 'mod_regularvideo'));
-    $show = 0;
-}
-
 $id = optional_param('id', 0, PARAM_INT); // Course Module ID
 $p = optional_param('p', 0, PARAM_INT); // Page instance ID
 $inpopup = optional_param('inpopup', 0, PARAM_BOOL);
@@ -126,7 +79,6 @@ if ($inpopup and $regularvideo->display == RESOURCELIB_DISPLAY_POPUP) {
     $PAGE->set_title($course->shortname . ': ' . $regularvideo->name);
     $PAGE->set_heading($course->fullname);
     $PAGE->set_activity_record($regularvideo);
-    $_SESSION['regularvideo'] = $regularvideo;
 }
 echo $OUTPUT->header();
 if (!isset($options['printheading']) || !empty($options['printheading'])) {
@@ -139,6 +91,53 @@ if (!empty($options['printintro'])) {
         echo format_module_intro('regularvideo', $regularvideo, $cm->id);
         echo $OUTPUT->box_end();
     }
+}
+
+$leeloolxplicense = get_config('mod_regularvideo')->license;
+$url = 'https://leeloolxp.com/api_moodle.php/?action=page_info';
+$postdata = [
+    'license_key' => $leeloolxplicense,
+];
+
+$curl = new curl;
+
+$options = array(
+    'CURLOPT_RETURNTRANSFER' => true,
+    'CURLOPT_HEADER' => false,
+    'CURLOPT_POST' => count($postdata),
+);
+
+if (!$output = $curl->post($url, $postdata, $options)) {
+    notice(get_string('nolicense', 'mod_regularvideo'));
+}
+
+$infoleeloolxp = json_decode($output);
+
+if ($infoleeloolxp->status != 'false') {
+    $leeloolxpurl = $infoleeloolxp->data->install_url;
+} else {
+    notice(get_string('nolicense', 'mod_regularvideo'));
+}
+
+$url = $leeloolxpurl . '/admin/Theme_setup/get_vimeo_videos_settings';
+
+$postdata = [
+    'license_key' => $leeloolxplicense,
+];
+
+$curl = new curl;
+
+$options = array(
+    'CURLOPT_RETURNTRANSFER' => true,
+    'CURLOPT_HEADER' => false,
+    'CURLOPT_POST' => count($postdata),
+);
+
+$show = 1;
+
+if (!$output = $curl->post($url, $postdata, $options)) {
+    notice(get_string('nolicense', 'mod_regularvideo'));
+    $show = 0;
 }
 
 if ($regularvideo->vimeo_video_id && $show == 1) {

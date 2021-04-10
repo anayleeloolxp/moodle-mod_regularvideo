@@ -18,7 +18,7 @@
  * The mod_regularvideo instance list viewed event.
  *
  * @package    mod_regularvideo
- * @copyright  2013 Ankit Agarwal
+ * @copyright  2020 Leeloo LXP (https://leeloolxp.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,7 +30,7 @@ defined('MOODLE_INTERNAL') || die();
  *
  * @package    mod_regularvideo
  * @since      Moodle 2.7
- * @copyright  2013 onwards Ankit Agarwal
+ * @copyright  2020 Leeloo LXP (https://leeloolxp.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class course_module_instance_list_viewed extends \core\event\course_module_instance_list_viewed {

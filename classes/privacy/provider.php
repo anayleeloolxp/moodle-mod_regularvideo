@@ -15,20 +15,20 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Privacy Subsystem implementation for mod_wespher.
+ * Privacy Subsystem implementation for mod_regularvideo.
  *
- * @package   mod_wespher
+ * @package   mod_regularvideo
  * @copyright  2020 Leeloo LXP (https://leeloolxp.com)
  * @author     Leeloo LXP <info@leeloolxp.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mod_wespher\privacy;
+namespace mod_regularvideo\privacy;
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Privacy Subsystem for mod_wespher implementing null_provider.
+ * Privacy Subsystem for mod_regularvideo implementing null_provider.
  *
  * @copyright  2020 Leeloo LXP (https://leeloolxp.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

@@ -18,7 +18,7 @@
  * Provides support for the conversion of moodle1 backup to the moodle2 format
  *
  * @package mod_regularvideo
- * @copyright  2011 Andrew Davis <andrew@moodle.com>
+ * @copyright  2020 Leeloo LXP (https://leeloolxp.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

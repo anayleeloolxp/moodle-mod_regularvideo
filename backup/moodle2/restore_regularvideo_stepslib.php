@@ -19,7 +19,7 @@
  *
  * @package   mod_regularvideo
  * @category  backup
- * @copyright 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
+ * @copyright 2020 Leeloo LXP (https://leeloolxp.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

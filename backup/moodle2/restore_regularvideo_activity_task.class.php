@@ -65,8 +65,8 @@ class restore_regularvideo_activity_task extends restore_activity_task {
     public static function define_decode_rules() {
         $rules = array();
 
-        $rules[] = new restore_decode_rule('PAGEVIEWBYID', '/mod/regularvideo/view.php?id=$1', 'course_module');
-        $rules[] = new restore_decode_rule('PAGEINDEX', '/mod/regularvideo/index.php?id=$1', 'course');
+        $rules[] = new restore_decode_rule('REGULARVIDEOVIEWBYID', '/mod/regularvideo/view.php?id=$1', 'course_module');
+        $rules[] = new restore_decode_rule('REGULARVIDEOINDEX', '/mod/regularvideo/index.php?id=$1', 'course');
 
         return $rules;
 

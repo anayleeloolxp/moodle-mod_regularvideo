@@ -168,8 +168,8 @@ if ($show == 1) {
         player.on("timeupdate", function(data){
             var running_time = data.seconds;
             Cookies.set("vimeotimeElapsed' . $cm->id . '", data.seconds);
-        });    
-        
+        });
+
         var timeElapsed = Cookies.get("vimeotimeElapsed' . $cm->id . '");
         if(timeElapsed){
             player.setCurrentTime(timeElapsed);
